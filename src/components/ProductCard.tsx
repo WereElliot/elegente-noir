@@ -9,6 +9,11 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   return (
     <div className="product-card animate-fade-in" style={{ position: 'relative' }}>
       <div className="product-card-img-container">
+        {product.isPrivateListing && (
+          <div className="private-badge">
+            Private Collection
+          </div>
+        )}
         <img 
           src={product.image} 
           alt={product.name}
@@ -34,6 +39,19 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
       </div>
 
       <style>{`
+        .private-badge {
+          position: absolute;
+          top: 1rem;
+          left: 1rem;
+          background-color: var(--primary);
+          color: black;
+          padding: 0.5rem 1rem;
+          font-size: 8px;
+          text-transform: uppercase;
+          letter-spacing: 0.2em;
+          font-weight: 600;
+          z-index: 5;
+        }
         .add-btn {
           position: absolute;
           bottom: 1rem;
