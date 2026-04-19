@@ -38,6 +38,7 @@ const Header: React.FC<{ onCartClick: () => void }> = ({ onCartClick }) => {
           <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="nav-link">The House</button>
           <button onClick={() => scrollToSection('collection')} className="nav-link">Curation</button>
           <button onClick={() => scrollToSection('heritage')} className="nav-link">Heritage</button>
+          <Link to="/consign" className="nav-link">Consign</Link>
           <button onClick={() => scrollToSection('contact')} className="nav-link">Contact</button>
         </div>
 

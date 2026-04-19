@@ -1,8 +1,9 @@
 import React from 'react';
-import { products } from '../types';
+import { useProducts } from '../ProductContext';
 import ProductCard from './ProductCard';
 
 const ProductGrid: React.FC = () => {
+  const { allProducts } = useProducts();
   return (
     <section id="collection" style={{ padding: '10rem 8vw', backgroundColor: 'var(--white)' }}>
       <div style={{ 
@@ -34,7 +35,7 @@ const ProductGrid: React.FC = () => {
       </div>
 
       <div className="grid-products">
-        {products.map(product => (
+        {allProducts.map(product => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
