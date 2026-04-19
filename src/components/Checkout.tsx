@@ -1,30 +1,69 @@
 import React, { useState } from 'react';
 import { useCart } from '../CartContext';
-import { ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Globe, ShieldCheck, Zap } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Checkout: React.FC = () => {
   const { cart, totalPrice, clearCart } = useCart();
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'processing' | 'brokering' | 'success'>('idle');
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSuccess(true);
+    setStatus('processing');
+    
+    // Step 1: Internal validation
+    await new Promise(r => setTimeout(r, 1500));
+    
+    // Step 2: Automated Brokering Simulation
+    const brokeredItems = cart.filter(item => item.externalSourceUrl);
+    if (brokeredItems.length > 0) {
+      setStatus('brokering');
+      console.log('Automated Brokering Triggered for:', brokeredItems.map(i => i.externalSourceUrl));
+      await new Promise(r => setTimeout(r, 3000));
+    }
+    
+    setStatus('success');
     setTimeout(() => {
       clearCart();
       navigate('/');
-    }, 3000);
+    }, 4000);
   };
 
-  if (isSuccess) {
+  if (status === 'success') {
     return (
       <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '3rem', backgroundColor: 'var(--bg)' }} className="animate-fade-in">
         <CheckCircle2 size={100} style={{ color: 'var(--primary)' }} strokeWidth={1} />
         <div style={{ textAlign: 'center' }}>
-          <h2 className="serif" style={{ fontSize: '4rem', marginBottom: '1.5rem', color: 'var(--text)' }}>Thank You</h2>
-          <p style={{ color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.4em', fontSize: '11px' }}>Your acquisition is being processed.</p>
+          <h2 className="serif" style={{ fontSize: '4rem', marginBottom: '1.5rem', color: 'var(--text)' }}>Acquisition Confirmed</h2>
+          <p style={{ color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.4em', fontSize: '11px' }}>Your selection has been secured through our global network.</p>
         </div>
+      </div>
+    );
+  }
+
+  if (status === 'processing' || status === 'brokering') {
+    return (
+      <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '3rem', backgroundColor: 'var(--bg)' }} className="animate-fade-in">
+        <div className="loader-container">
+          <div className="loader-ring"></div>
+          {status === 'brokering' ? <Globe size={40} className="pulse-icon" /> : <ShieldCheck size={40} className="pulse-icon" />}
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <h2 className="serif" style={{ fontSize: '2.5rem', marginBottom: '1.5rem', color: 'var(--text)' }}>
+            {status === 'brokering' ? 'Coordinating with Global Boutiques...' : 'Securing Secure Transaction...'}
+          </h2>
+          <p style={{ color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.4em', fontSize: '11px' }}>
+            {status === 'brokering' ? 'Automated brokering in progress' : 'Verifying allocation'}
+          </p>
+        </div>
+        <style>{`
+          .loader-container { position: relative; display: flex; align-items: center; justify-content: center; }
+          .loader-ring { width: 100px; height: 100px; border: 2px solid rgba(0,0,0,0.05); border-top: 2px solid var(--primary); border-radius: 50%; animation: spin 2s linear infinite; position: absolute; }
+          @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+          .pulse-icon { color: var(--primary); animation: pulse 2s ease-in-out infinite; }
+          @keyframes pulse { 0%, 100% { opacity: 0.3; transform: scale(0.9); } 50% { opacity: 1; transform: scale(1.1); } }
+        `}</style>
       </div>
     );
   }
@@ -38,6 +77,10 @@ const Checkout: React.FC = () => {
 
       <div className="checkout-grid">
         <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '1.5rem' }}>
+             <Zap size={14} style={{ color: 'var(--primary)' }} />
+             <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.3em', color: 'var(--primary)', fontWeight: 600 }}>Automated Global Brokering Enabled</span>
+          </div>
           <h1 className="serif" style={{ fontSize: '5rem', marginBottom: '4rem', color: 'var(--text)' }}>Acquisition</h1>
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
@@ -68,17 +111,24 @@ const Checkout: React.FC = () => {
           <h3 style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.4em', color: 'var(--text-muted)', fontWeight: 600 }}>Selection Summary</h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
             {cart.map(item => (
-              <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-                  <div style={{ width: '4rem', height: '5rem', backgroundColor: 'var(--white)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(0,0,0,0.03)' }}>
-                    <img src={item.image} alt={item.name} style={{ width: '80%', height: '80%', objectFit: 'contain' }} />
+              <div key={item.id} style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+                    <div style={{ width: '4rem', height: '5rem', backgroundColor: 'var(--white)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(0,0,0,0.03)' }}>
+                      <img src={item.image} alt={item.name} style={{ width: '80%', height: '80%', objectFit: 'contain' }} />
+                    </div>
+                    <div>
+                      <p className="serif" style={{ fontSize: '1.2rem', color: 'var(--text)' }}>{item.name}</p>
+                      <p style={{ fontSize: '10px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>QTY: {item.quantity}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="serif" style={{ fontSize: '1.2rem', color: 'var(--text)' }}>{item.name}</p>
-                    <p style={{ fontSize: '10px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>QTY: {item.quantity}</p>
-                  </div>
+                  <p style={{ fontSize: '1.1rem', fontWeight: 300, color: 'var(--text)' }}>${(item.price * item.quantity).toLocaleString()}</p>
                 </div>
-                <p style={{ fontSize: '1.1rem', fontWeight: 300, color: 'var(--text)' }}>${(item.price * item.quantity).toLocaleString()}</p>
+                {item.externalSourceUrl && (
+                  <div style={{ marginLeft: '5.5rem', fontSize: '9px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.1em', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <Globe size={10} /> Brokered through Partner Boutique
+                  </div>
+                )}
               </div>
             ))}
           </div>

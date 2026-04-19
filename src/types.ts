@@ -6,6 +6,7 @@ export interface Product {
   image: string;
   description: string;
   isPrivateListing?: boolean;
+  externalSourceUrl?: string;
 }
 
 export interface CartItem extends Product {
@@ -19,7 +20,8 @@ export const products: Product[] = [
     category: "Fragrance",
     price: 240,
     image: "/assets/perfume_gold.png",
-    description: "A timeless fragrance with notes of saffron and liquid gold."
+    description: "A timeless fragrance with notes of saffron and liquid gold.",
+    externalSourceUrl: "https://www.farfetch.com/shopping/women/fragrance-1/items.aspx"
   },
   {
     id: 2,
@@ -27,7 +29,8 @@ export const products: Product[] = [
     category: "Fragrance",
     price: 180,
     image: "/assets/perfume_midnight.png",
-    description: "Mysterious and deep, like a moonlit garden in Paris."
+    description: "Mysterious and deep, like a moonlit garden in Paris.",
+    externalSourceUrl: "https://www.net-a-porter.com/en-gb/shop/beauty/fragrance"
   },
   {
     id: 3,
