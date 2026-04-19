@@ -1,12 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@200;300;400;500&display=swap');
 
 :root {
-  --primary: #D4AF37;
-  --bg: #000000;
-  --text: #ffffff;
-  --text-muted: #888888;
-  --accent: #111111;
-  --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  --primary: #C5A059; /* Muted Champagne Gold */
+  --bg: #F9F7F2;      /* Elegant Off-White/Bone */
+  --text: #1A1A1A;    /* Deep Charcoal */
+  --text-muted: #7C7C7C;
+  --accent: #E8E2D6;  /* Soft Sand/Stone */
+  --white: #FFFFFF;
+  --transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 * {
@@ -18,14 +19,15 @@
 body {
   background-color: var(--bg);
   color: var(--text);
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Outfit', sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, .serif {
+h1, h2, h3, h4, .serif {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 300;
+  letter-spacing: -0.02em;
 }
 
 a {
@@ -41,7 +43,15 @@ button {
   font-family: inherit;
 }
 
-/* Common Utilities */
+/* Glassmorphism Refinement for Light Theme */
+.glass {
+  background: rgba(249, 247, 242, 0.85);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+/* Layout Utilities */
 .fixed-nav {
   position: fixed;
   top: 0;
@@ -51,7 +61,7 @@ button {
 }
 
 .max-w-wide {
-  max-width: 1800px;
+  max-width: 1600px;
   margin: 0 auto;
 }
 
@@ -61,52 +71,55 @@ button {
   align-items: center;
 }
 
-.aspect-product {
-  aspect-ratio: 3 / 4;
-}
-
 .grid-products {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 4rem 2rem;
-}
-
-/* Glassmorphism */
-.glass {
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 6rem 3rem;
 }
 
 /* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .animate-fade-in {
-  animation: fadeIn 1s forwards;
+  animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .delay-100 { animation-delay: 0.1s; }
 .delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
 
-/* Product Item Styles */
+/* Product Realistic Sizing */
+.product-card-img-container {
+  aspect-ratio: 1 / 1.2;
+  background-color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  overflow: hidden;
+  position: relative;
+  transition: var(--transition);
+}
+
 .product-card-img {
-  width: 100%;
-  height: 100%;
-  object-cover: cover;
-  filter: grayscale(1);
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Prevents stretching */
   transition: var(--transition);
 }
 
 .product-card:hover .product-card-img {
-  filter: grayscale(0);
-  transform: scale(1.05);
+  transform: scale(1.08);
 }
 
-/* Hero Section */
+.product-card:hover .product-card-img-container {
+  background-color: var(--accent);
+}
+
+/* Hero Light */
 .hero-container {
   position: relative;
   height: 100vh;
@@ -114,13 +127,16 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 5vw;
-  overflow: hidden;
+  padding: 0 8vw;
+  background-color: var(--accent);
 }
 
 .hero-bg {
   position: absolute;
-  inset: 0;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
   z-index: 0;
 }
 
@@ -128,12 +144,12 @@ button {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.6;
-  filter: grayscale(1);
+  mix-blend-mode: multiply;
+  opacity: 0.8;
 }
 
-.hero-gradient {
+.hero-gradient-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent, black);
+  background: linear-gradient(to right, var(--accent) 40%, transparent);
 }

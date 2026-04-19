@@ -4,26 +4,29 @@ import ProductCard from './ProductCard';
 
 const ProductGrid: React.FC = () => {
   return (
-    <section style={{ padding: '6rem 5vw' }}>
+    <section id="collection" style={{ padding: '10rem 8vw', backgroundColor: 'var(--white)' }}>
       <div style={{ 
         display: 'flex', 
         flexDirection: 'row', 
         justifyContent: 'space-between', 
         alignItems: 'flex-end', 
-        marginBottom: '4rem', 
+        marginBottom: '6rem', 
         gap: '2rem',
         flexWrap: 'wrap'
       }}>
-        <div style={{ maxWidth: '600px' }}>
-          <h2 className="serif" style={{ fontSize: 'clamp(3rem, 8vw, 5rem)', tracking: '-0.02em', marginBottom: '1rem' }}>
-            The Collection
+        <div style={{ maxWidth: '700px' }}>
+          <p style={{ color: 'var(--primary)', fontWeight: 500, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.4em', marginBottom: '1.5rem' }}>
+            THE CURATION
+          </p>
+          <h2 className="serif" style={{ fontSize: 'clamp(3.5rem, 8vw, 6rem)', lineHeight: 1, marginBottom: '2rem', color: 'var(--text)' }}>
+            Exquisite Artifacts
           </h2>
-          <p style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 300, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.3em' }}>
-            Curated objects of desire and artisanal craftsmanship.
+          <p style={{ color: 'var(--text-muted)', fontWeight: 300, fontSize: '1.1rem', lineHeight: '1.6', maxWidth: '500px' }}>
+            Each piece is selected for its story, craftsmanship, and ability to elevate the mundane into the extraordinary.
           </p>
         </div>
         <div className="filter-tabs">
-          <button className="active">All Items</button>
+          <button className="active">All Collections</button>
           <button>Fragrance</button>
           <button>Timepieces</button>
           <button>Accessories</button>
@@ -39,20 +42,22 @@ const ProductGrid: React.FC = () => {
       <style>{`
         .filter-tabs {
           display: flex;
-          gap: 1.5rem;
-          font-size: 10px;
+          gap: 2.5rem;
+          font-size: 11px;
           text-transform: uppercase;
-          letter-spacing: 0.2em;
-          color: rgba(255,255,255,0.4);
+          letter-spacing: 0.3em;
+          color: var(--text-muted);
+          font-weight: 500;
         }
         .filter-tabs button {
-          transition: color 0.3s;
-          padding-bottom: 0.25rem;
+          transition: all 0.4s ease;
+          padding-bottom: 0.5rem;
+          border-bottom: 1px solid transparent;
         }
-        .filter-tabs button:hover { color: white; }
+        .filter-tabs button:hover { color: var(--text); }
         .filter-tabs button.active {
-          color: white;
-          border-bottom: 1px solid white;
+          color: var(--text);
+          border-bottom: 1px solid var(--primary);
         }
       `}</style>
     </section>

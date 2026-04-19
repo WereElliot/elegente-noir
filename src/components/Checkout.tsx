@@ -19,112 +19,122 @@ const Checkout: React.FC = () => {
 
   if (isSuccess) {
     return (
-      <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '2rem' }} className="animate-fade-in">
-        <CheckCircle2 size={80} style={{ color: 'var(--primary)' }} strokeWidth={1} />
+      <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '3rem', backgroundColor: 'var(--bg)' }} className="animate-fade-in">
+        <CheckCircle2 size={100} style={{ color: 'var(--primary)' }} strokeWidth={1} />
         <div style={{ textAlign: 'center' }}>
-          <h2 className="serif" style={{ fontSize: '3rem', marginBottom: '1rem' }}>Order Placed</h2>
-          <p style={{ color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.3em', fontSize: '10px' }}>Your selection is being prepared.</p>
+          <h2 className="serif" style={{ fontSize: '4rem', marginBottom: '1.5rem', color: 'var(--text)' }}>Thank You</h2>
+          <p style={{ color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.4em', fontSize: '11px' }}>Your acquisition is being processed.</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div style={{ paddingTop: '8rem', paddingBottom: '6rem', paddingLeft: '5vw', paddingRight: '5vw', maxWidth: '1400px', margin: '0 auto' }}>
-      <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', marginBottom: '4rem' }} className="hover-white">
-        <ArrowLeft size={14} />
-        Back to Curation
+    <div style={{ paddingTop: '10rem', paddingBottom: '8rem', paddingLeft: '8vw', paddingRight: '8vw', maxWidth: '1500px', margin: '0 auto', backgroundColor: 'var(--bg)', minHeight: '100vh' }}>
+      <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.8rem', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.3em', color: 'var(--text-muted)', marginBottom: '5rem', fontWeight: 500 }} className="hover-primary">
+        <ArrowLeft size={16} />
+        Back to Gallery
       </Link>
 
       <div className="checkout-grid">
         <div>
-          <h1 className="serif" style={{ fontSize: '4rem', marginBottom: '3rem' }}>Checkout</h1>
-          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-              <h3 style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.3em', color: 'rgba(255,255,255,0.3)', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '1rem' }}>Shipping Information</h3>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+          <h1 className="serif" style={{ fontSize: '5rem', marginBottom: '4rem', color: 'var(--text)' }}>Acquisition</h1>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+              <h3 style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.4em', color: 'var(--primary)', borderBottom: '1px solid rgba(0,0,0,0.05)', paddingBottom: '1.5rem', fontWeight: 600 }}>Delivery Logistics</h3>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
                 <input required placeholder="First Name" className="input-noir" />
                 <input required placeholder="Last Name" className="input-noir" />
               </div>
-              <input required placeholder="Address" className="input-noir" />
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
-                <input required placeholder="City" className="input-noir" />
+              <input required placeholder="Shipping Address" className="input-noir" />
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+                <input required placeholder="City / State" className="input-noir" />
                 <input required placeholder="Postal Code" className="input-noir" />
               </div>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-              <h3 style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.3em', color: 'rgba(255,255,255,0.3)', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '1rem' }}>Payment</h3>
-              <input required placeholder="Card Number" className="input-noir" />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+              <h3 style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.4em', color: 'var(--primary)', borderBottom: '1px solid rgba(0,0,0,0.05)', paddingBottom: '1.5rem', fontWeight: 600 }}>Payment Method</h3>
+              <input required placeholder="Secure Card Entry" className="input-noir" />
             </div>
 
             <button type="submit" className="pay-btn">
-              Pay ${totalPrice}
+              Pay Total — ${totalPrice.toLocaleString()}
             </button>
           </form>
         </div>
 
         <div className="order-summary">
-          <h3 style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.3em', color: 'rgba(255,255,255,0.3)' }}>Order Summary</h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <h3 style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.4em', color: 'var(--text-muted)', fontWeight: 600 }}>Selection Summary</h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
             {cart.map(item => (
               <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                  <div style={{ width: '3rem', height: '4rem', backgroundColor: 'var(--accent)' }}>
-                    <img src={item.image} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(1)' }} />
+                <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+                  <div style={{ width: '4rem', height: '5rem', backgroundColor: 'var(--white)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(0,0,0,0.03)' }}>
+                    <img src={item.image} alt={item.name} style={{ width: '80%', height: '80%', objectFit: 'contain' }} />
                   </div>
                   <div>
-                    <p className="serif" style={{ fontSize: '0.9rem' }}>{item.name}</p>
-                    <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.3)' }}>QTY: {item.quantity}</p>
+                    <p className="serif" style={{ fontSize: '1.2rem', color: 'var(--text)' }}>{item.name}</p>
+                    <p style={{ fontSize: '10px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>QTY: {item.quantity}</p>
                   </div>
                 </div>
-                <p style={{ fontSize: '0.9rem', fontWeight: 300 }}>${item.price * item.quantity}</p>
+                <p style={{ fontSize: '1.1rem', fontWeight: 300, color: 'var(--text)' }}>${(item.price * item.quantity).toLocaleString()}</p>
               </div>
             ))}
           </div>
-          <div style={{ paddingTop: '2rem', borderTop: '1px solid rgba(255,255,255,0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-            <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.3em', color: 'rgba(255,255,255,0.4)' }}>Total</span>
-            <span className="serif" style={{ fontSize: '2rem', color: 'var(--primary)' }}>${totalPrice}</span>
+          <div style={{ paddingTop: '3rem', borderTop: '1px solid rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-muted)', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.2em' }}>
+               <span>Subtotal</span>
+               <span>${totalPrice.toLocaleString()}</span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginTop: '1rem' }}>
+              <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.4em', color: 'var(--text)', fontWeight: 600 }}>Total</span>
+              <span className="serif" style={{ fontSize: '3rem', color: 'var(--primary)' }}>${totalPrice.toLocaleString()}</span>
+            </div>
           </div>
         </div>
       </div>
 
       <style>{`
-        .checkout-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 6rem; }
+        .checkout-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 10rem; }
         .input-noir {
           background: transparent;
           border: none;
-          border-bottom: 1px solid rgba(255,255,255,0.2);
-          padding: 1rem 0;
+          border-bottom: 1px solid rgba(0,0,0,0.1);
+          padding: 1.5rem 0;
           outline: none;
-          color: white;
-          font-size: 0.9rem;
-          transition: border-color 0.3s;
+          color: var(--text);
+          font-size: 1rem;
+          transition: all 0.4s ease;
+          font-family: 'Outfit', sans-serif;
         }
-        .input-noir:focus { border-color: var(--primary); }
+        .input-noir:focus { border-color: var(--primary); padding-left: 0.5rem; }
         .pay-btn {
           width: 100%;
-          background-color: white;
-          color: black;
-          padding: 1.5rem;
-          font-size: 10px;
+          background-color: var(--text);
+          color: white;
+          padding: 2rem;
+          font-size: 11px;
           text-transform: uppercase;
-          letter-spacing: 0.4em;
-          font-weight: bold;
-          transition: background-color 0.3s;
+          letter-spacing: 0.5em;
+          font-weight: 700;
+          transition: all 0.6s ease;
+          box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
-        .pay-btn:hover { background-color: var(--primary); }
+        .pay-btn:hover { background-color: var(--primary); transform: translateY(-5px); box-shadow: 0 25px 50px rgba(197, 160, 89, 0.3); }
         .order-summary {
-          background-color: rgba(255,255,255,0.02);
-          padding: 3rem;
+          background-color: var(--white);
+          padding: 4rem;
           height: fit-content;
           display: flex;
           flex-direction: column;
-          gap: 2rem;
-          border: 1px solid rgba(255,255,255,0.05);
+          gap: 3rem;
+          border: 1px solid rgba(0,0,0,0.03);
+          box-shadow: 0 30px 60px rgba(0,0,0,0.02);
         }
-        @media (max-width: 1024px) {
-          .checkout-grid { grid-template-columns: 1fr; gap: 4rem; }
+        .hover-primary:hover { color: var(--primary) !important; transition: color 0.3s; }
+        @media (max-width: 1100px) {
+          .checkout-grid { grid-template-columns: 1fr; gap: 6rem; }
         }
       `}</style>
     </div>

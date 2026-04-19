@@ -8,7 +8,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
 
   return (
     <div className="product-card animate-fade-in" style={{ position: 'relative' }}>
-      <div className="aspect-product" style={{ overflow: 'hidden', backgroundColor: 'var(--accent)', position: 'relative' }}>
+      <div className="product-card-img-container">
         <img 
           src={product.image} 
           alt={product.name}
@@ -17,37 +17,38 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
         <button 
           onClick={() => addToCart(product)}
           className="add-btn"
+          aria-label="Add to basket"
         >
-          <Plus size={20} />
+          <Plus size={20} strokeWidth={1.5} />
         </button>
       </div>
       
-      <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <div>
-          <p style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', marginBottom: '0.5rem' }}>
+      <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          <p style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.3em', color: 'var(--text-muted)' }}>
             {product.category}
           </p>
-          <h3 className="serif" style={{ fontSize: '1.5rem' }}>{product.name}</h3>
+          <h3 className="serif" style={{ fontSize: '1.8rem', color: 'var(--text)' }}>{product.name}</h3>
         </div>
-        <p style={{ fontSize: '1.2rem', fontWeight: 300, color: 'var(--primary)' }}>${product.price}</p>
+        <p style={{ fontSize: '1.3rem', fontWeight: 300, color: 'var(--primary)' }}>${product.price.toLocaleString()}</p>
       </div>
 
       <style>{`
         .add-btn {
           position: absolute;
-          bottom: 1.5rem;
-          right: 1.5rem;
-          width: 3rem;
-          height: 3rem;
-          background-color: white;
-          color: black;
+          bottom: 1rem;
+          right: 1rem;
+          width: 3.5rem;
+          height: 3.5rem;
+          background-color: var(--text);
+          color: white;
           display: flex;
           align-items: center;
           justify-content: center;
           border-radius: 50%;
           opacity: 0;
           transform: translateY(1rem);
-          transition: all 0.5s ease;
+          transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .product-card:hover .add-btn {
           opacity: 1;
@@ -55,6 +56,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
         }
         .add-btn:hover {
           background-color: var(--primary);
+          transform: scale(1.1);
         }
       `}</style>
     </div>
