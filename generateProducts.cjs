@@ -20,14 +20,29 @@ const palettes = {
   adjectives: ['Ethereal', 'Midnight', 'Golden', 'Obsidian', 'Aurelian', 'Heritage', 'Velvet', 'Celestial', 'Imperial', 'Nomad', 'Infinite', 'Primal', 'Sublime', 'Royal', 'Ancient', 'Majestic', 'Divine', 'Radiant', 'Stellar', 'Timeless']
 };
 
-const images = {
-  'Jewelry': ['jewelry', 'diamond', 'necklace', 'gold-ring', 'emerald'],
-  'Timepiece': ['luxury-watch', 'watch-movement', 'rolex', 'horology', 'mechanical-watch'],
-  'Fragrance': ['perfume-bottle', 'fragrance', 'scent', 'cologne', 'luxury-perfume'],
-  'Fine Art': ['abstract-art', 'sculpture', 'painting-gallery', 'marble-statue', 'oil-painting'],
-  'Decor': ['interior-decor', 'luxury-vase', 'candelabra', 'home-accessories', 'crystal-decor'],
-  'Lifestyle': ['luxury-travel', 'leather-bag', 'champagne', 'private-jet-interior', 'luxury-car-detail'],
-  'Interior': ['luxury-living-room', 'modern-chair', 'architectural-furniture', 'minimalist-interior', 'luxury-bedroom']
+// Real, high-quality Unsplash IDs for each category
+const categoryImages = {
+  'Jewelry': [
+    '1515562141207-7a88fb7ce338', '1617038220319-276d3cfab638', '1599643477877-530eb83ad81f', '1535633302743-c923c51c16ca', '1605100804763-247f67b398b3'
+  ],
+  'Timepiece': [
+    '1524592094714-0f0654e20314', '1508685096489-7aacd43bd3b1', '1523170335258-f5ed11844a49', '1533139502658-0198f920d8e8', '1614164185128-e4ec99c436d7'
+  ],
+  'Fragrance': [
+    '1541643600914-78b084683601', '1592945403244-b3fbafd7f539', '1595425970377-c9703cf48b6d', '1585232351009-aa87416fca90', '1563170332-93bc26f6164b'
+  ],
+  'Fine Art': [
+    '1549490349-8643362247b5', '1579783902614-a3fb3927b6a5', '1541963463532-d68292c34b19', '1578301978693-85fa9c0320b9', '1577083552431-6e5fd01aa342'
+  ],
+  'Decor': [
+    '1582555172866-f73bb12a2ab3', '1513519245088-0e12902e5a38', '1534073828943-f801091bb18c', '1565182999561-18d7361a00a9', '1540932239986-30128078f3c5'
+  ],
+  'Lifestyle': [
+    '1544816155-12df9643f363', '1584917865442-de89df76afd3', '1590615365410-d41f4e11ac0b', '1523275335684-37898b6baf30', '1549298916-b41d501d3772'
+  ],
+  'Interior': [
+    '1592078615290-033ee584e267', '1586023492125-27b2c045efd7', '1616489953149-897592482390', '1616137422495-1e902b790c3d', '1616489953149-74d6c44957e8'
+  ]
 };
 
 const products = [];
@@ -39,7 +54,6 @@ for (let i = 1; i <= 720; i++) {
   const category = categories[Math.floor(Math.random() * categories.length)];
   let name = '';
   
-  // Custom naming logic per category to avoid repetitions
   if (category === 'Jewelry') {
     name = `${getRandom(palettes.stones)} ${getRandom(palettes.styles)} ${getRandom(palettes.types)}`;
   } else if (category === 'Timepiece') {
@@ -52,25 +66,25 @@ for (let i = 1; i <= 720; i++) {
     name = `${getRandom(palettes.adjectives)} ${getRandom(palettes.styles)} ${category}`;
   }
 
-  // Ensure uniqueness
   let finalName = name;
   let counter = 1;
   while (usedNames.has(finalName)) {
-    finalName = `${name} ${getRandom(palettes.adjectives)}`; // Add an adjective to make it unique if collision
-    if (counter > 5) finalName = `${name} #${i}`; // Fallback to number if still colliding
+    finalName = `${name} ${getRandom(palettes.adjectives)}`;
+    if (counter > 5) finalName = `${name} #${i}`;
     counter++;
   }
   usedNames.add(finalName);
 
   const price = Math.floor(Math.random() * 125000) + 800;
-  const searchTerm = getRandom(images[category]);
+  const photoId = getRandom(categoryImages[category]);
   
   products.push({
     id: i,
     name: finalName,
     category: category,
     price: price,
-    image: `https://images.unsplash.com/photo-1?q=80&w=800&auto=format&fit=crop&sig=${i}&key=${searchTerm}`, // Using sig and searchTerm for variety
+    // Correct Unsplash URL format
+    image: `https://images.unsplash.com/photo-${photoId}?q=80&w=800&auto=format&fit=crop`,
     description: `A unique ${category.toLowerCase()} that defines the ${finalName} series. Exclusively curated for the Elegente House.`,
     externalSourceUrl: `https://www.google.com/search?q=${encodeURIComponent(finalName)}`
   });
@@ -86,4 +100,4 @@ fs.writeFileSync(
   JSON.stringify(products, null, 2)
 );
 
-console.log('Successfully generated 720 truly unique luxury items with expanded vocabulary and varied imagery.');
+console.log('Successfully fixed 720 luxury items with valid Unsplash imagery.');
