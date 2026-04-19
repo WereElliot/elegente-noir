@@ -12,20 +12,25 @@ const ProductContext = createContext<ProductContextType | undefined>(undefined);
 export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [allProducts, setAllProducts] = useState<Product[]>(() => {
     const saved = localStorage.getItem('elegente_products');
+    let baseProducts = [...(initialProducts as Product[])];
+    
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const savedProducts = JSON.parse(saved) as Product[];
+        // Only keep items from localStorage that aren't in the new large initialProducts list
+        // This ensures we get the 700+ new items while keeping user-added listings.
+        const userListings = savedProducts.filter(sp => 
+          sp.isPrivateListing && !baseProducts.find(bp => bp.id === sp.id)
+        );
+        return [...userListings, ...baseProducts];
       } catch (e) {
-        return initialProducts as Product[];
+        return baseProducts;
       }
     }
-    return initialProducts as Product[];
+    return baseProducts;
   });
 
   useEffect(() => {
-    // We only persist user-added items to avoid bloating localStorage with 700+ items
-    // But for this simulation, we'll just save the whole thing or a subset.
-    // Actually, localStorage has a 5MB limit. 720 items is ~300KB, so it's fine.
     localStorage.setItem('elegente_products', JSON.stringify(allProducts));
   }, [allProducts]);
 
